@@ -188,6 +188,64 @@ class TestAccountService(TestCase):
         self.assertEqual(len(read_accts),5)
 
     ######################################################################
+    #  U P D A T E   T E S T   C A S E S
+    ######################################################################
+
+    def test_update_account_name(self):
+        """ It should update an account """
+        account = self._create_accounts(1)[0]
+        old_name = account.name
+        new_name = "New Name"
+        account.name = "New Name"
+
+        # happy case - update acct just created
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=account.serialize()
+        )
+
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        updated_acct = response.get_json()
+        self.assertEqual(updated_acct["id"],account.id)
+        self.assertEqual(updated_acct["name"],new_name)
+        self.assertEqual(updated_acct["email"],account.email)
+        self.assertEqual(updated_acct["address"],account.address)
+        self.assertEqual(updated_acct["phone_number"],account.phone_number)
+        self.assertNotEqual(updated_acct["name"],old_name)
+
+    # def test_update_account_email(self):
+    #     """ It should update an account """
+    #     account = self._create_accounts(1)[0]
+    #     old_email = account.email
+    #     new_email = "newexample@example.com"
+    #     account.email = "newexample@example.com"
+
+    #     # happy case - update acct just created
+    #     # HTTP_200_OK
+    #     response = self.client.put(
+    #         f"{BASE_URL}/{account.id}",
+    #         content_type="application/json"
+    #     )
+
+    #     self.assertEqual(response.status_code,status.HTTP_200_OK)
+    #     updated_acct = response.get_json()
+    #     self.assertEqual(updated_acct["name"],account.name)
+    #     self.assertEqual(updated_acct["email"],new_email)
+    #     self.assertEqual(updated_acct["address"],account.address)
+    #     self.assertEqual(updated_acct["phone_number"],account.phone_number)
+    #     self.assertNotEqual(updated_acct["name"],old_email)
+
+    # def test_update_account_not_found(self):
+    #     # sad case - update acct which does not exist
+    #     # HTTP_404_NOT_FOUND
+
+    #     response = self.client.put(
+    #         f"{BASE_URL}/{0}",
+    #         content_type="application/json"
+    #     )
+    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+
+    ######################################################################
     #  E R R O R   T E S T   C A S E S
     ######################################################################
 
