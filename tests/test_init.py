@@ -27,5 +27,5 @@ class TestServiceInitialization(unittest.TestCase):
         message = mock_critical.call_args[0]
 
         self.assertIn("Cannot continue", message[0])
-        self.assertIn("database unavailable", message[1])
+        self.assertIn("database unavailable", str(message[1]))
         mock_exit.assert_called_once_with(4)

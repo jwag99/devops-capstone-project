@@ -10,6 +10,7 @@ import logging
 from unittest import TestCase
 from tests.factories import AccountFactory
 from service.common import status  # HTTP Status Codes
+from service.common.error_handlers import internal_server_error
 from service.models import db, Account, init_db
 from service.routes import app
 
@@ -158,3 +159,72 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(read_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+    ######################################################################
+    #  L I S T   T E S T   C A S E S
+    ######################################################################
+
+    def test_list_accounts(self):
+        """ It should list all accounts """
+
+        read_resp = self.client.get(
+            f"{BASE_URL}/list",
+            content_type="application/json"
+        )
+        self.assertEqual(read_resp.status_code, status.HTTP_404_NOT_FOUND)
+
+        ## this creates acct and posts to DB
+        self._create_accounts(5)[0]
+
+        read_resp = self.client.get(
+            f"{BASE_URL}/list",
+            content_type="application/json"
+        )
+
+        self.assertEqual(read_resp.status_code, status.HTTP_200_OK)
+        
+        # Check the data is correct
+        read_accts = read_resp.get_json()
+        self.assertEqual(len(read_accts),5)
+
+    ######################################################################
+    #  E R R O R   T E S T   C A S E S
+    ######################################################################
+
+    def test_not_supported(self):
+        """ It should fail with 405 Not Allowed """
+
+        read_resp = self.client.post(
+            f"{BASE_URL}/deleteAll",
+            content_type="application/json"
+        )
+
+        self.assertEqual(read_resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+        read_resp = self.client.get(
+            f"{BASE_URL}/deleteAll",
+            content_type="application/json"
+        )
+
+        self.assertEqual(read_resp.status_code, status.HTTP_405_METHOD_NOT_ALLOWED)
+
+    def test_internal_server_error(self):
+        """It should handle an unexpected server error"""
+
+        error = Exception("Unexpected database failure")
+
+        with app.app_context():
+            response, response_status = internal_server_error(error)
+
+        self.assertEqual(
+            response_status,
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+
+        data = response.get_json()
+        self.assertEqual(
+            data["status"],
+            status.HTTP_500_INTERNAL_SERVER_ERROR,
+        )
+        self.assertEqual(data["error"], "Internal Server Error")
+        self.assertEqual(data["message"], "Unexpected database failure")

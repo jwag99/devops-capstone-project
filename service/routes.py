@@ -62,6 +62,24 @@ def create_accounts():
 ######################################################################
 
 # ... place you code here to LIST accounts ...
+@app.route("/accounts/list", methods=["GET"])
+def list_accounts():
+    """
+    Lists all accounts
+    This endpoint will list all accounts
+    """
+    app.logger.info("Request to list all accounts")
+    
+    accounts = Account.all()
+    if not accounts:
+        abort(status.HTTP_404_NOT_FOUND, "No accounts found")
+    
+    acct_list = {}
+    for account in accounts:
+        acct_list[account.id] = account.serialize()
+
+    return acct_list, status.HTTP_200_OK
+
 
 
 ######################################################################
@@ -96,7 +114,14 @@ def read_account(account_id):
 ######################################################################
 
 # ... place you code here to DELETE an account ...
-
+@app.route("/accounts/deleteAll", methods=["GET"])
+def delete_all():
+    """
+    Deletes all accounts
+    This endpoint will return not allowed
+    """
+    app.logger.info("Request to delete all accounts")
+    return "Not allowed", status.HTTP_405_METHOD_NOT_ALLOWED
 
 ######################################################################
 #  U T I L I T Y   F U N C T I O N S
