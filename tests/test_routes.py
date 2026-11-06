@@ -213,37 +213,41 @@ class TestAccountService(TestCase):
         self.assertEqual(updated_acct["phone_number"],account.phone_number)
         self.assertNotEqual(updated_acct["name"],old_name)
 
-    # def test_update_account_email(self):
-    #     """ It should update an account """
-    #     account = self._create_accounts(1)[0]
-    #     old_email = account.email
-    #     new_email = "newexample@example.com"
-    #     account.email = "newexample@example.com"
+    def test_update_account_email_and_phone(self):
+        """ It should update an account """
+        account = self._create_accounts(1)[0]
+        old_email = account.email
+        old_phone = account.phone_number
+        new_email = "newemail@example.com"
+        new_phone = "(111)-111-1111"
+        account.email = "newemail@example.com"
+        account.phone_number = "(111)-111-1111"
 
-    #     # happy case - update acct just created
-    #     # HTTP_200_OK
-    #     response = self.client.put(
-    #         f"{BASE_URL}/{account.id}",
-    #         content_type="application/json"
-    #     )
+        # happy case - update acct just created
+        response = self.client.put(
+            f"{BASE_URL}/{account.id}",
+            json=account.serialize()
+        )
 
-    #     self.assertEqual(response.status_code,status.HTTP_200_OK)
-    #     updated_acct = response.get_json()
-    #     self.assertEqual(updated_acct["name"],account.name)
-    #     self.assertEqual(updated_acct["email"],new_email)
-    #     self.assertEqual(updated_acct["address"],account.address)
-    #     self.assertEqual(updated_acct["phone_number"],account.phone_number)
-    #     self.assertNotEqual(updated_acct["name"],old_email)
+        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        updated_acct = response.get_json()
+        self.assertEqual(updated_acct["id"],account.id)
+        self.assertEqual(updated_acct["name"],account.name)
+        self.assertEqual(updated_acct["email"],new_email)
+        self.assertEqual(updated_acct["address"],account.address)
+        self.assertEqual(updated_acct["phone_number"],new_phone)
+        self.assertNotEqual(updated_acct["email"],old_email)
+        self.assertNotEqual(updated_acct["phone_number"],old_phone)
 
-    # def test_update_account_not_found(self):
-    #     # sad case - update acct which does not exist
-    #     # HTTP_404_NOT_FOUND
-
-    #     response = self.client.put(
-    #         f"{BASE_URL}/{0}",
-    #         content_type="application/json"
-    #     )
-    #     self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
+    def test_update_account_not_found(self):
+        # sad case - update acct which does not exist
+        # HTTP_404_NOT_FOUND
+        account = self._create_accounts(1)[0]
+        response = self.client.put(
+            f"{BASE_URL}/{0}",
+            json=account.serialize()
+        )
+        self.assertEqual(response.status_code, status.HTTP_404_NOT_FOUND)
 
     ######################################################################
     #  E R R O R   T E S T   C A S E S
