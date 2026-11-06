@@ -24,6 +24,10 @@ from service.common import error_handlers, cli_commands  # noqa: F401 E402
 from flask_talisman import Talisman
 talisman = Talisman(app)
 
+# Import for CORS security
+from flask_cors import CORS
+CORS(app)
+
 # Set up logging for production
 log_handlers.init_logging(app, "gunicorn.error")
 
