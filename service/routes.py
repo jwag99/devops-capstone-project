@@ -61,7 +61,7 @@ def create_accounts():
 # LIST ALL ACCOUNTS
 ######################################################################
 
-# ... place you code here to LIST accounts ...
+
 @app.route("/accounts/list", methods=["GET"])
 def list_accounts():
     """
@@ -69,11 +69,11 @@ def list_accounts():
     This endpoint will list all accounts
     """
     app.logger.info("Request to list all accounts")
-    
+
     accounts = Account.all()
     if not accounts:
         abort(status.HTTP_404_NOT_FOUND, "No accounts found")
-    
+
     acct_list = {}
     for account in accounts:
         acct_list[account.id] = account.serialize()
@@ -81,12 +81,11 @@ def list_accounts():
     return acct_list, status.HTTP_200_OK
 
 
-
 ######################################################################
 # READ AN ACCOUNT
 ######################################################################
 
-# ... place you code here to READ an account ...
+
 @app.route("/accounts/<int:account_id>", methods=["GET"])
 def read_account(account_id):
     """
@@ -94,7 +93,7 @@ def read_account(account_id):
     This endpoint will read an Account based on the id in the URL
     """
     app.logger.info("Request to read an Account with id: %s", account_id)
-    
+
     account = Account.find(account_id)
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
@@ -119,7 +118,7 @@ def update_account(account_id):
     account = Account.find(account_id)
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{account_id}] could not be found.")
-    
+
     account.deserialize(request.get_json())
     account.update()
 
@@ -129,7 +128,7 @@ def update_account(account_id):
 # DELETE AN ACCOUNT
 ######################################################################
 
-# ... place you code here to DELETE an account ...
+
 @app.route("/accounts/deleteAll", methods=["GET"])
 def delete_all():
     """
@@ -138,6 +137,7 @@ def delete_all():
     """
     app.logger.info("Request to delete all accounts")
     return "Not allowed", status.HTTP_405_METHOD_NOT_ALLOWED
+
 
 @app.route("/accounts/<int:account_id>", methods=["DELETE"])
 def delete_account(account_id):

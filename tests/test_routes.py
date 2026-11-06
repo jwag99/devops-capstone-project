@@ -133,7 +133,7 @@ class TestAccountService(TestCase):
     def test_read_an_account(self):
         """ It should Read a single account """
 
-        ## this creates acct and posts to DB
+        # this creates acct and posts to DB
         account = self._create_accounts(1)[0]
         read_resp = self.client.get(
             f"{BASE_URL}/{account.id}",
@@ -141,7 +141,7 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(read_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check the data is correct
         read_acct = read_resp.get_json()
         self.assertEqual(read_acct["name"], account.name)
@@ -149,7 +149,7 @@ class TestAccountService(TestCase):
         self.assertEqual(read_acct["address"], account.address)
         self.assertEqual(read_acct["phone_number"], account.phone_number)
         self.assertEqual(read_acct["date_joined"], str(account.date_joined))
-    
+
     def test_read_an_account_not_found(self):
         """ It should read a single account and fail """
 
@@ -173,7 +173,7 @@ class TestAccountService(TestCase):
         )
         self.assertEqual(read_resp.status_code, status.HTTP_404_NOT_FOUND)
 
-        ## this creates acct and posts to DB
+        # this creates acct and posts to DB
         self._create_accounts(5)[0]
 
         read_resp = self.client.get(
@@ -182,10 +182,10 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(read_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check the data is correct
         read_accts = read_resp.get_json()
-        self.assertEqual(len(read_accts),5)
+        self.assertEqual(len(read_accts), 5)
 
     ######################################################################
     #  U P D A T E   T E S T   C A S E S
@@ -204,14 +204,14 @@ class TestAccountService(TestCase):
             json=account.serialize()
         )
 
-        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         updated_acct = response.get_json()
-        self.assertEqual(updated_acct["id"],account.id)
-        self.assertEqual(updated_acct["name"],new_name)
-        self.assertEqual(updated_acct["email"],account.email)
-        self.assertEqual(updated_acct["address"],account.address)
-        self.assertEqual(updated_acct["phone_number"],account.phone_number)
-        self.assertNotEqual(updated_acct["name"],old_name)
+        self.assertEqual(updated_acct["id"], account.id)
+        self.assertEqual(updated_acct["name"], new_name)
+        self.assertEqual(updated_acct["email"], account.email)
+        self.assertEqual(updated_acct["address"], account.address)
+        self.assertEqual(updated_acct["phone_number"], account.phone_number)
+        self.assertNotEqual(updated_acct["name"], old_name)
 
     def test_update_account_email_and_phone(self):
         """ It should update an account with a new email and phone_number """
@@ -229,15 +229,15 @@ class TestAccountService(TestCase):
             json=account.serialize()
         )
 
-        self.assertEqual(response.status_code,status.HTTP_200_OK)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
         updated_acct = response.get_json()
-        self.assertEqual(updated_acct["id"],account.id)
-        self.assertEqual(updated_acct["name"],account.name)
-        self.assertEqual(updated_acct["email"],new_email)
-        self.assertEqual(updated_acct["address"],account.address)
-        self.assertEqual(updated_acct["phone_number"],new_phone)
-        self.assertNotEqual(updated_acct["email"],old_email)
-        self.assertNotEqual(updated_acct["phone_number"],old_phone)
+        self.assertEqual(updated_acct["id"], account.id)
+        self.assertEqual(updated_acct["name"], account.name)
+        self.assertEqual(updated_acct["email"], new_email)
+        self.assertEqual(updated_acct["address"], account.address)
+        self.assertEqual(updated_acct["phone_number"], new_phone)
+        self.assertNotEqual(updated_acct["email"], old_email)
+        self.assertNotEqual(updated_acct["phone_number"], old_phone)
 
     def test_update_account_not_found(self):
         """ It should update an account which does not exist and receive 404 """
@@ -262,7 +262,7 @@ class TestAccountService(TestCase):
             f"{BASE_URL}/{accounts[0].id}"
         )
 
-        self.assertEqual(del_response.status_code,status.HTTP_204_NO_CONTENT)
+        self.assertEqual(del_response.status_code, status.HTTP_204_NO_CONTENT)
 
         list_resp = self.client.get(
             f"{BASE_URL}/list",
@@ -270,20 +270,20 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(list_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check the data is correct
         read_accts = list_resp.get_json()
-        self.assertEqual(len(read_accts),4)
-    
+        self.assertEqual(len(read_accts), 4)
+
     def test_delete_account_not_exists(self):
         """ It should fail to delete an account not exists """
-        accounts = self._create_accounts(5)
+        self._create_accounts(5)
 
         del_response = self.client.delete(
             f"{BASE_URL}/{0}"
         )
 
-        self.assertEqual(del_response.status_code,status.HTTP_404_NOT_FOUND)
+        self.assertEqual(del_response.status_code, status.HTTP_404_NOT_FOUND)
 
         list_resp = self.client.get(
             f"{BASE_URL}/list",
@@ -291,10 +291,10 @@ class TestAccountService(TestCase):
         )
 
         self.assertEqual(list_resp.status_code, status.HTTP_200_OK)
-        
+
         # Check the data is correct
         read_accts = list_resp.get_json()
-        self.assertEqual(len(read_accts),5)
+        self.assertEqual(len(read_accts), 5)
 
     ######################################################################
     #  E R R O R   T E S T   C A S E S
