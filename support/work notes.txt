@@ -1,0 +1,378 @@
+DevOps Capstone
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+Lab Env Setup:
+
+export GITHUB_ACCOUNT=jwag99
+
+git clone https://github.com/$GITHUB_ACCOUNT/devops-capstone-project.git
+cd devops-capstone-project
+bash ./bin/setup.sh
+exit
+
+which python
+# should point to venv
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+Lab: Agile Planning Using GitHub
+
+Exercise 1: Create a GitHub repository
+For Option 1: AI-Graded Submission and Evaluation, copy and paste the public GitHub repository URL of the README.md file that contains the project name details.
+
+https://github.com/jwag99/devops-capstone-project/blob/main/README.md
+
+Exercise 2: Create a GitHub Kanban board in your repository
+
+Exercise 3: Create a user story template
+For Option 1: AI-Graded Submission and Evaluation, copy and paste the public GitHub repository URL of the user-story.md file that contains the user story template and save it in a text file.
+https://github.com/jwag99/devops-capstone-project/blob/main/.github/ISSUE_TEMPLATE/user-story.md
+
+Exercise 4: Assemble your product backlog
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation.
+Take a screenshot of your Kanban board showing all user stories listed under the ‘New Issues’ column and save as planning-userstories-done.jpeg or planning-userstories-done.png.
+
+Exercise 5: Triage new issues
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation.
+Take a screenshot of your Kanban board and save it as planning-productbacklog-done.jpeg or planning-productbacklog-done.png.
+
+Exercise 6: Refine your product backlog
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation
+Take a screenshot of your Kanban board and save it as planning-labels-done.jpeg or planning-labels-done.png.
+
+
+Exercise 7: Build your first sprint from your product backlog
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation
+Take a screenshot of your Kanban board and save it as planning-kanban-done.jpeg or planning-kanban-done.png.
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+Develop a RESTful Service Using Test Driven Development (TDD)
+
+Exercise 1: Implement Your First User Story
+Open the public GitHub repository URL of the setup.cfg file, which contains the configuration for nosetests, coverage report, Flake8, and Pylint. Copy and save the public URL you will submit this URL as evidence.
+Open your Kanban board and take a screenshot showing the story “Setting up the development environment” moved to the Done column. Save the screenshot as rest-techdebt-done.jpeg (or rest-techdebt-done.png).
+
+https://github.com/jwag99/devops-capstone-project/blob/main/setup.cfg
+
+Exercise 2: Create a REST API with Flask
+
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation.
+Take screenshots of your Kanban board after each story is moved to the Done column. Name the screenshots as follows:
+
+read-accounts.jpeg (or read-accounts.png) — for the story “Read an account from the service.”
+list-accounts.jpeg (or list-accounts.png) — for the story “List all accounts in the service.”
+update-accounts.jpeg (or update-accounts.png) — for the story “Update an account in the service.”
+delete-accounts.jpeg (or delete-accounts.png) — for the story “Delete an account from the service.”
+
+
+Exercise 3: Run the REST service
+flask db-create
+make run
+
+Exercise 4: Sprint Review
+curl -i -X POST http://127.0.0.1:5000/accounts \
+-H "Content-Type: application/json" \
+-d '{"name":"John Doe","email":"john@doe.com","address":"123 Main St.","phone_number":"555-1212"}'
+
+For Option 1: AI-Graded Submission and Evaluation: Copy and paste the cURL command and its JSON output demonstrating the CREATE function of an account, and save it in a text file named rest-create-done for the final project submission and evaluation.
+rest-create-done:
+curl -i -X POST http://127.0.0.1:5000/accounts \
+> -H "Content-Type: application/json" \
+> -d '{"name":"John Doe","email":"john@doe.com","address":"123 Main St.","phone_number":"555-1212"}'
+HTTP/1.1 201 CREATED
+Server: gunicorn
+Date: Fri, 06 Nov 2026 01:18:12 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 128
+Location: /
+
+{"address":"123 Main St.","date_joined":"2026-11-05","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1212"}
+
+For Option 1: AI-Graded Submission and Evaluation: Copy and paste the cURL command and its JSON output demonstrating the READ function of an account, and save it in a text file named rest-read-done for the final project submission and evaluation.
+
+rest-read-done
+curl -i -X GET http://127.0.0.1:5000/accounts/1
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Fri, 06 Nov 2026 01:19:53 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 128
+
+{"address":"123 Main St.","date_joined":"2026-11-05","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1212"}
+
+
+For Option 1: AI-Graded Submission and Evaluation: Copy and paste the cURL command and its JSON output demonstrating the UPDATE function of an account, and save it in a text file named rest-update-done for the final project submission and evaluation.
+rest-update-done
+curl -i -X PUT http://127.0.0.1:5000/accounts/1 \
+> -H "Content-Type: application/json" \
+> -d '{"name":"John Doe","email":"john@doe.com","address":"123 Main St.","phone_number":"555-1111"}'
+HTTP/1.1 200 OK
+Server: gunicorn
+Date: Fri, 06 Nov 2026 01:20:30 GMT
+Connection: close
+Content-Type: application/json
+Content-Length: 128
+
+{"address":"123 Main St.","date_joined":"2026-11-05","email":"john@doe.com","id":1,"name":"John Doe","phone_number":"555-1111"}
+
+
+For Option 1: AI-Graded Submission and Evaluation: Copy and paste the cURL command and its JSON output demonstrating the DELETE function of an account, and save it in a text file named rest-delete-done for the final project submission and evaluation.
+rest-delete-done:
+curl -i -X DELETE http://127.0.0.1:5000/accounts/1
+
+HTTP/1.1 204 NO CONTENT
+Server: gunicorn
+Date: Fri, 06 Nov 2026 01:21:14 GMT
+Connection: close
+Content-Type: text/html; charset=utf-8
+
+////////////////////////////////////////////////////////////////////////////////////
+Continuous Integration
+
+Hands-On Lab: Sprint 2 Planning
+
+For both Option 1: AI-Graded Submission and Evaluation and Option 2: Peer-Graded Submission and Evaluation:
+Take a screenshot of your Kanban board showing the two new user stories listed under the Sprint Backlog for Sprint 2 and save the screenshot as sprint2-plan.jpeg or sprint2-plan.png.
+
+
+Lab: Add Continuous Integration
+
+Exercise 10: View the Workflow Run
+For Option 1: AI-Graded Submission and Evaluation
+
+Open the results of your GitHub Actions workflow run in the terminal.
+Copy the complete terminal output showing all workflow steps and save it in a file named ci-workflow-done.
+ci-workflow-done:
+gh run list
+gh run view 42275586868 --verbose
+
+✓ main CI Build · 42275586868
+Triggered via push about 1 minute ago
+
+JOBS
+✓ build in 43s (ID 128090971464)
+  ✓ Set up job
+  ✓ Initialize containers
+  ✓ Checkout
+  ✓ Install dependencies
+  ✓ Lint with flake8
+  ✓ Run unit tests with nose
+  ✓ Post Checkout
+  ✓ Stop containers
+  ✓ Complete job
+
+ANNOTATIONS
+! Node.js 20 is deprecated. The following actions target Node.js 20 but are being forced to run on Node.js 24: actions/checkout@v2. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
+build: .github#2
+
+- "The ubuntu-latest label will migrate to Ubuntu 26 beginning October 19, 2026. For more information, see https://github.com/actions/runner-images/issues/14748"
+build: .github#1
+
+
+For more information about a job, try: gh run view --job=<job-id>
+View this run on GitHub: https://github.com/jwag99/devops-capstone-project/actions/runs/42275586868
+
+If not done as part of question 1, Copy and paste the the public Github URL of README.md and save it in a text file that shows the updated badge.
+https://github.com/jwag99/devops-capstone-project/blob/main/README.md
+
+Move the story “Need the ability to automate continuous integration checks” to the Done column on your Kanban board.
+Take a screenshot of your Kanban board and save it as ci-kanban-done.jpeg or ci-kanban-done.png.
+
+Copy and paste the the public Github URL of ci-build.yaml and save it in a text file
+https://github.com/jwag99/devops-capstone-project/blob/main/.github/workflows/ci-build.yaml
+
+
+Add Security to Your RESTful Service
+
+Exercise 7: Add CORS Policies
+Make sure all your test cases pass. Save the test output in a text file and also take a screenshot of the results. Save both the text file and the screenshot using the same name: security-headers-done.
+
+security-headers-done:
+nosetests
+
+Test Flask CLI Commands
+- It should call the db-create command
+
+Service initialization
+[2026-11-06 14:42:09 -0500] [INFO] [log_handlers] Logging handler established
+[2026-11-06 14:42:09 -0500] [INFO] [__init__] **********************************************************************
+[2026-11-06 14:42:09 -0500] [INFO] [__init__] **********  A C C O U N T   S E R V I C E   R U N N I N G  ***********
+[2026-11-06 14:42:09 -0500] [INFO] [__init__] **********************************************************************
+- It should log the database error and exit with code 4
+
+Test Cases for Account Model
+- It should return a string representation of an Account
+- It should Create an account and add it to the database
+- It should Create an Account and assert that it exists
+- It should Delete an account from the database
+- It should Deserialize an account
+- It should set date_joined to today's date when not provided
+- It should not Deserialize an account with a KeyError
+- It should not Deserialize an account with a TypeError
+- It should Find an Account by name
+- It should List all Accounts in the database
+- It should Read an account
+- It should Serialize an account
+- It should Update an account
+
+Account Service Tests
+- It should not Create an Account when sending the wrong data
+- It should return a CORS header
+- It should Create a new Account
+- It should delete an account
+- It should fail to delete an account not exists
+- It should be healthy
+- It should get 200_OK from the Home Page
+- It should handle an unexpected server error
+- It should list all accounts
+- It should fail with 405 Not Allowed
+- It should Read a single account
+- It should read a single account and fail
+- It should receive response with security headers present
+- It should not Create an Account when sending the wrong media type
+- It should update an account with a new email and phone_number
+- It should update an account with a new name
+- It should update an account which does not exist and receive 404
+
+Name                               Stmts   Miss  Cover   Missing
+----------------------------------------------------------------
+service/__init__.py                   22      0   100%
+service/common/__init__.py             0      0   100%
+service/common/cli_commands.py         7      0   100%
+service/common/error_handlers.py      32      0   100%
+service/common/log_handlers.py        10      0   100%
+service/common/status.py              46      0   100%
+service/config.py                     11      0   100%
+service/models.py                     69      1    99%   32
+service/routes.py                     65      0   100%
+----------------------------------------------------------------
+TOTAL                                262      1    99%
+----------------------------------------------------------------------
+Ran 32 tests in 1.444s
+
+OK
+
+
+For Option 1: AI-Graded Submission and Evaluation
+
+Open the service/__init__.py file and copy its public GitHub URL.
+This file must show the configuration for Talisman security headers.
+Save and submit the URL as part of your final evaluation.
+https://github.com/jwag99/devops-capstone-project/blob/main/service/__init__.py
+
+After completing Exercise 7 and running the tests, ensure you have saved the full test output — showing all tests passing after implementing the CORS policies — in a file named security-headers-done.
+
+Move the story “Need to add security headers and CORS policies” to the Done column on your Kanban board.
+Take a screenshot of your Kanban board and save it as security-kanban-done.jpeg or security-kanban-done.png.
+
+
+////////////////////////////////////////////////////////////////////////////////////
+Lab: Deploy to Kubernetes
+
+Exercise 3: Create a Docker Image
+
+For Option 1: AI-Graded Submission and Evaluation
+
+After launching your application in the internal web browser on port 8080, copy the JSON output and save it in a file named kube-app-output for submission.
+{"name":"Account REST API Service","version":"1.0"}
+
+
+
+Collect Final Evidence
+
+For Option 1: AI-Graded Submission and Evaluation, you must collect and submit the following evidence:
+
+Open your Dockerfile on GitHub and copy the public URL link.
+
+Run the following command in your terminal:
+docker image ls
+Copy and save the complete terminal output text in a file and save it as kube-images.
+IMAGE                                       ID             DISK USAGE   CONTENT SIZE   EXTRA
+accounts:latest                             1f1e0a125482        205MB             0B        
+postgres:alpine                             bb46dc8bfad7        248MB             0B    U   
+us.icr.io/sn-labs-jonathanwagn/accounts:1   1f1e0a125482        205MB             0B        
+
+Run the following command:
+oc get all -l app=accounts
+Take a screenshot of the output and save it as kube-deploy-accounts.jpeg or kube-deploy-accounts.png.
+Warning: apps.openshift.io/v1 DeploymentConfig is deprecated in v4.14+, unavailable in v4.10000+
+NAME                            READY   STATUS    RESTARTS   AGE
+pod/accounts-56bd4dd889-hl6wm   1/1     Running   0          7m23s
+pod/accounts-56bd4dd889-rc9xj   1/1     Running   0          7m23s
+pod/accounts-56bd4dd889-zqwvw   1/1     Running   0          7m23s
+
+NAME               TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)    AGE
+service/accounts   ClusterIP   172.21.131.37   <none>        8080/TCP   7m10s
+
+NAME                       READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/accounts   3/3     3            3           7m23s
+
+NAME                                  DESIRED   CURRENT   READY   AGE
+replicaset.apps/accounts-56bd4dd889   3         3         3       7m23s
+
+NAME                                HOST/PORT                                                                                                                        PATH   SERVICES   PORT    TERMINATION   WILDCARD
+route.route.openshift.io/accounts   accounts-sn-labs-jonathanwagn.labs-prod-openshift-san-a45631dc5778dc6371c67d206ba9ae5c-0000.us-east.containers.appdomain.cloud          accounts   <all>   edge          None
+
+
+
+
+
+
+
+
+////////////////////////////////////////////////////////////////////////////////////
+Lab: Build an Automated CD DevOps Pipeline Using Tekton and OpenShift
+
+Exercise 2: Overview and Setup
+Use the oc create command on the tekton/pvc.yaml file to create a workspace for your pipeline to use.
+oc create -f tekton/pvc.yaml
+
+Use the oc apply command on the tekton/tasks.yaml file to create the tasks for your pipeline to use.
+oc apply -f tekton/tasks.yaml
+
+Use the oc apply command on the tekton/pipeline.yaml file to create the initial pipeline.
+oc apply -f tekton/pipeline.yaml
+
+git-clone install:
+kubectl apply -f https://github.com/tektoncd/catalog/raw/main/task/git-clone/0.10/git-clone.yaml
+
+Use the tkn pipeline start command to start the pipeline and make sure the initial pipeline definitions work.
+tkn pipeline start cd-pipeline \
+    -p repo-url="https://github.com/$GITHUB_ACCOUNT/devops-capstone-project.git" \
+    -p branch="main" \
+    -w name=pipeline-workspace,claimName=pipelinerun-pvc \
+    -s pipeline \
+    --showlog
+
+see it run:
+tkn pipelinerun ls
+
+flake8 install:
+kubectl apply -f https://github.com/tektoncd/catalog/raw/main/task/flake8/0.1/flake8.yaml
+
+
+Start the Pipeline
+image-registry.openshift-image-registry.svc:5000/$SN_ICR_NAMESPACE/accounts:latest
+
+tkn pipeline start cd-pipeline \
+    -p repo-url="https://github.com/$GITHUB_ACCOUNT/devops-capstone-project.git" \
+	-p branch=main \
+    -p build-image=image-registry.openshift-image-registry.svc:5000/$SN_ICR_NAMESPACE/accounts:1 \
+    -w name=pipeline-workspace,claimName=pipelinerun-pvc \
+    -s pipeline \
+	--showlog
+tkn pipeline start cd-pipeline \
+    -p repo-url="https://github.com/$GITHUB_ACCOUNT/devops-capstone-project.git" \
+	-p branch=cd-pipeline \
+    -p build-image=image-registry.openshift-image-registry.svc:5000/sn-labs-jonathanwagn/accounts:1 \
+    -w name=pipeline-workspace,claimName=pipelinerun-pvc \
+    -s pipeline \
+	--showlog
